@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "subline"
-version = "0.1.2"
+version = "0.1.3"
 description = "Generate SRT/VTT subtitles from video files using faster-whisper"
 readme = "README.md"
 license = "MIT"

@@ -52,7 +52,7 @@ subline movie.mp4          # auto-detect language, writes movie.srt
 
 ```bash
 brew install ffmpeg                   # or: apt install ffmpeg
-pipx install git+https://github.com/fenelon/subline.git
+pipx install subline
 subline movie.mp4
 ```
 
@@ -72,22 +72,18 @@ subline movie.mp4
 ## Install
 
 ```bash
-# From GitHub (recommended)
-pipx install git+https://github.com/fenelon/subline.git
-
-# From PyPI (once published)
+# With pipx (recommended -- installs in its own environment)
 pipx install subline
 
-# Or from a local clone
-git clone https://github.com/fenelon/subline.git
-pip install ./subline
+# Or with pip
+pip install subline
 ```
 
 > **Trouble installing on Python 3.14?**
 > Some dependencies (`av`) may not support 3.14 yet. Use an older interpreter:
 > ```bash
 > brew install python@3.13
-> pipx install git+https://github.com/fenelon/subline.git --python python3.13
+> pipx install subline --python python3.13
 > ```
 
 ## Usage

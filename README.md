@@ -44,13 +44,21 @@ subline movie.mp4          # auto-detect language, writes movie.srt
 - **Auto language detection** -- or pin a language with `--language es`
 - **Batch mode** -- pass multiple files or a whole directory
 - **SRT & VTT** output formats
-- **GPU auto-detect** -- uses CUDA / MPS / CPU, whichever is available
+- **CUDA auto-detect** -- uses NVIDIA GPU when available, CPU otherwise
 - **Multi-track aware** -- picks the first audio track and tells you about the rest
 - **Skip existing** -- resume interrupted batch runs with `--skip-existing`
 
+## Quick start
+
+```bash
+brew install ffmpeg                   # or: apt install ffmpeg
+pipx install git+https://github.com/fenelon/subline.git
+subline movie.mp4
+```
+
 ## Requirements
 
-- Python 3.10+
+- **Python 3.10+**
 - **ffmpeg** and **ffprobe** on your PATH
   ```bash
   # macOS
@@ -64,15 +72,23 @@ subline movie.mp4          # auto-detect language, writes movie.srt
 ## Install
 
 ```bash
+# From GitHub (recommended)
+pipx install git+https://github.com/fenelon/subline.git
+
 # From PyPI (once published)
 pipx install subline
 
-# Or straight from GitHub
-pipx install git+https://github.com/fenelon/subline.git
-
-# Or in a venv
-pip install git+https://github.com/fenelon/subline.git
+# Or from a local clone
+git clone https://github.com/fenelon/subline.git
+pip install ./subline
 ```
+
+> **Trouble installing on Python 3.14?**
+> Some dependencies (`av`) may not support 3.14 yet. Use an older interpreter:
+> ```bash
+> brew install python@3.13
+> pipx install git+https://github.com/fenelon/subline.git --python python3.13
+> ```
 
 ## Usage
 
@@ -87,7 +103,7 @@ subline [options] <path...>
 | `--audio-track N` | auto (first track) | Stream index of the audio track to use |
 | `--format srt\|vtt` | `srt` | Output subtitle format |
 | `--output-dir DIR` | next to source | Where to write subtitle files |
-| `--device DEVICE` | auto | Force `cuda`, `mps`, or `cpu` |
+| `--device DEVICE` | auto | Force `cuda` or `cpu` |
 | `--skip-existing` | off | Don't re-transcribe if subtitle already exists |
 
 ### Examples
@@ -112,9 +128,9 @@ subline --audio-track 2 foreign_film.mkv
 ### Output
 
 ```
-Found 3 file(s) | model=turbo | language=auto-detect | device=mps
+Found 3 file(s) | model=turbo | language=auto-detect | device=cpu
 
-Loading model 'turbo' on mps...
+Loading model 'turbo' on cpu...
 
 [1/3] ep01.mp4
   Using audio track 1 (spa)

@@ -32,15 +32,13 @@ def check_ffmpeg():
 
 
 def detect_device():
-    """Return best available device: cuda > mps > cpu."""
+    """Return best available device. CTranslate2 supports cuda and cpu only."""
     try:
-        import torch
+        import ctranslate2
 
-        if torch.cuda.is_available():
+        if "cuda" in ctranslate2.get_supported_compute_types("cuda"):
             return "cuda"
-        if torch.backends.mps.is_available():
-            return "mps"
-    except ImportError:
+    except (ImportError, RuntimeError):
         pass
     return "cpu"
 
@@ -178,6 +176,11 @@ def pick_audio_track(video, manual_track):
 
 
 def main():
+    print("\n\033[1m"
+          "░▄▀▀░█▒█░██▄░█▒░░█░█▄░█▒██▀\n"
+          "▒▄██░▀▄█▒█▄█▒█▄▄░█░█▒▀█░█▄▄\n"
+          "\033[0m")
+
     parser = argparse.ArgumentParser(
         prog="subline",
         description="Generate SRT/VTT subtitles from video files using faster-whisper",
@@ -195,15 +198,10 @@ def main():
     parser.add_argument("--output-dir", type=str, default=None,
                         help="Directory to write subtitle files (default: next to source)")
     parser.add_argument("--device", default=None,
-                        help="Compute device: cuda, mps, cpu (default: auto-detect)")
+                        help="Compute device: cuda or cpu (default: auto-detect)")
     parser.add_argument("path", nargs="+",
                         help="Video/audio files or directories to transcribe")
     args = parser.parse_args()
-
-    print("\n\033[1m"
-          "░▄▀▀░█▒█░██▄░█▒░░█░█▄░█▒██▀\n"
-          "▒▄██░▀▄█▒█▄█▒█▄▄░█░█▒▀█░█▄▄\n"
-          "\033[0m")
 
     check_ffmpeg()
 
@@ -260,7 +258,7 @@ def main():
 
         print()
 
-    print("All done.")
+    print("All done.\n")
 
 
 if __name__ == "__main__":
